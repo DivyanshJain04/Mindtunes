@@ -2,6 +2,10 @@
 import joblib
 import numpy as np
 from flask import Flask, request, jsonify
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app)  # Enables CORS for all routes
 
 # Load all 4 models using joblib
 models = {
@@ -11,7 +15,6 @@ models = {
     "academic_performance": joblib.load("Social_Media_Impact_on_Academic_Work_Performance.pkl"),
 }
 
-app = Flask(__name__)
 
 @app.route('/')
 def home():
