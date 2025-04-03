@@ -18,14 +18,29 @@ models = {
 def home():
     return "ML Models API is running!"
 
-@app.route('/predict/<model_name>', methods=['POST'])
-def predict(model_name):
+@app.route('/predict/physical_health', methods=['POST'])
+def predict_physical_health():
+    return make_prediction("physical_health")
+
+@app.route('/predict/social_interactions', methods=['POST'])
+def predict_social_interactions():
+    return make_prediction("social_interactions")
+
+@app.route('/predict/sleep_quality', methods=['POST'])
+def predict_sleep_quality():
+    return make_prediction("sleep_quality")
+
+@app.route('/predict/academic_performance', methods=['POST'])
+def predict_academic_performance():
+    return make_prediction("academic_performance")
+
+def make_prediction(model_name):
     try:
         data = request.json  
         features = np.array(data["features"]).reshape(1, -1)  
 
         if model_name not in models:
-            return jsonify({"error": "Invalid model name. Choose from: physical_health, social_interactions, sleep_quality, academic_performance"}), 400
+            return jsonify({"error": "Invalid model name"}), 400
         
         prediction = models[model_name].predict(features)  
         return jsonify({"model": model_name, "prediction": prediction.tolist()})
