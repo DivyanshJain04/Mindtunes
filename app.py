@@ -1,4 +1,3 @@
- # Your Python code here
 import joblib
 import numpy as np
 from flask import Flask, request, jsonify
@@ -15,16 +14,14 @@ models = {
     "academic_performance": joblib.load("Social_Media_Impact_on_Academic_Work_Performance.pkl"),
 }
 
-
 @app.route('/')
 def home():
     return "ML Models API is running!"
 
-@app.route('/predict', methods=['POST'])
-def predict():
+@app.route('/predict/<model_name>', methods=['POST'])
+def predict(model_name):
     try:
         data = request.json  
-        model_name = data.get("model")  # Model name (e.g., "physical_health")
         features = np.array(data["features"]).reshape(1, -1)  
 
         if model_name not in models:
